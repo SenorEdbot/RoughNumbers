@@ -15,7 +15,7 @@ var locationDoingMove;
 function initAutocomplete() {
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer({
-    draggable: true,
+    draggable: false,
     map: map
   })
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -92,14 +92,11 @@ function computeTotalDistance(result) {
   calcRoughNumbers(tripMilage);
 }
 
-function calcRoughNumbers(tripMilage) {
-  var inputLocation = $("#input-location").val();
-  var averageSpeed = parseInt($("#average-speed-form").val());
-  var laborHigh = parseInt($("#labor-high-end-form").val());
-  var loadTravelFee = parseInt($("#load-travel-fee-form").val());
-  var unloadTravelFee = parseInt($("#unload-travel-fee-form").val());
-  var trucks = parseInt($("#trucks-form").val());
-  var movers = parseInt($("#movers-form").val());
+function addShopLocation() {
+  var inputLocation = $("#input-location").val();  
+  if (!inputLocation) {
+    return false
+  }
   switch(inputLocation){
     case "west-omaha":
       locationDoingMove = 'woma'
@@ -118,7 +115,7 @@ function calcRoughNumbers(tripMilage) {
         });
         break;
     case "lincoln":
-      locationDoingMove = 'oma'
+      locationDoingMove = 'linc'
         var newWaypt = lincolnAddress;
         waypts.push({
             location: newWaypt,
@@ -126,7 +123,7 @@ function calcRoughNumbers(tripMilage) {
         });
         break;
     case "denver":
-      locationDoingMove = 'oma'
+      locationDoingMove = 'cco'
         var newWaypt = denverAddress;
         waypts.push({
             location: newWaypt,
@@ -134,7 +131,7 @@ function calcRoughNumbers(tripMilage) {
         });
         break;
     case "des-moines":
-      locationDoingMove = 'oma'
+      locationDoingMove = 'dm'
         var newWaypt = desMoinesAddress;
         waypts.push({
             location: newWaypt,
@@ -144,6 +141,18 @@ function calcRoughNumbers(tripMilage) {
     default:
       console.log(inputLocation);
   }
+  
+}
+
+function calcRoughNumbers(tripMilage) {
+  var inputLocation = $("#input-location").val();
+  var averageSpeed = parseInt($("#average-speed-form").val());
+  var laborHigh = parseInt($("#labor-high-end-form").val());
+  var loadTravelFee = parseInt($("#load-travel-fee-form").val());
+  var unloadTravelFee = parseInt($("#unload-travel-fee-form").val());
+  var trucks = parseInt($("#trucks-form").val());
+  var movers = parseInt($("#movers-form").val());
+  
 
   // Calculate Drivetime Hours
   var finalDrivetime = (tripMilage / averageSpeed) * 2
